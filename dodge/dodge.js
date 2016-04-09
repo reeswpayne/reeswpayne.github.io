@@ -60,36 +60,36 @@ DogeDodge.Play.prototype = {
   },
 
   update: function() {
-    // if (this.cursors.left.isDown || this.cursors.right.isDown) {
-    var faller_fallspeed = Math.random() * (speedmax - speedmin) + speedmin;
-    this.faller.y += faller_fallspeed;
-    if (this.faller.y > 568) {
-      this.faller.x = Math.random() * (max - min) + min;
-      this.faller.y = 50;
+    if (this.cursors.left.isDown || this.cursors.right.isDown) {
       var faller_fallspeed = Math.random() * (speedmax - speedmin) + speedmin;
-    }
-    var fallerslow_fallspeed = Math.random() * (speedmax - speedmin) + speedmin;
-    this.fallerslow.y += fallerslow_fallspeed;
-    if (this.fallerslow.y > 568) {
-      this.fallerslow.x = Math.random() * (max - min) + min;
-      this.fallerslow.y = 50;
+      this.faller.y += faller_fallspeed;
+      if (this.faller.y > 568) {
+        this.faller.x = Math.random() * (max - min) + min;
+        this.faller.y = 50;
+        var faller_fallspeed = Math.random() * (speedmax - speedmin) + speedmin;
+      }
       var fallerslow_fallspeed = Math.random() * (speedmax - speedmin) + speedmin;
+      this.fallerslow.y += fallerslow_fallspeed;
+      if (this.fallerslow.y > 568) {
+        this.fallerslow.x = Math.random() * (max - min) + min;
+        this.fallerslow.y = 50;
+        var fallerslow_fallspeed = Math.random() * (speedmax - speedmin) + speedmin;
+      }
+      if (this.cursors.left.isDown) {
+        this.dodger.x -= 10;
+      }
+      if (this.cursors.right.isDown) {
+        this.dodger.x += 10;
+      }
     }
-    if (this.cursors.left.isDown) {
-      this.dodger.x -= 10;
-    }
-    if (this.cursors.right.isDown) {
-      this.dodger.x += 10;
-    }
-  //}
-    //game.physics.arcade.collide(this.faller,this.dodger,this.handleCollision);
-    //game.physics.arcade.collide(this.dodger,this.fallerslow,this.handleCollision);
+      game.physics.arcade.collide(this.faller,this.dodger,this.handleCollision);
+      game.physics.arcade.collide(this.dodger,this.fallerslow,this.handleCollision);
   },
 
-  //handleCollision: function() {
-    //console.log("OUUCHH")
-    //game.state.start('play')
-  //}
+  handleCollision: function() {
+    console.log("OUUCHH")
+    game.state.start('play')
+  }
 
 };
 
