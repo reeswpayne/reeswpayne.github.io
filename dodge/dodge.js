@@ -92,3 +92,9 @@ DogeDodge.Play.prototype = {
   }
 
 };
+
+//----------------------------------------------------------------------------------------
+
+var game = new Phaser.Game(320,568);
+game.state.add('play', DogeDodge.Play);
+game.state.start('play');
