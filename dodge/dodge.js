@@ -81,7 +81,7 @@ DogeDodge.Play.prototype = {
     if (this.cursors.right.isDown) {
       this.dodger.x += 10;
     }
-  }
+  //}
     //game.physics.arcade.collide(this.faller,this.dodger,this.handleCollision);
     //game.physics.arcade.collide(this.dodger,this.fallerslow,this.handleCollision);
   },
