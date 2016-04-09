@@ -18,9 +18,9 @@ DogeDodge.Play.prototype = {
   },
 
   preload: function () {
-    this.load.image('background','assets/GameBackground.png',320,568);
-    this.load.spritesheet('player','assets/Guy.Who.Dodges.Stuff.png',40,71,2);
-    this.load.spritesheet('faller','assets/Thing.That.Falls.From.the.Sky.png',40,71,1);
+    this.load.image('background','GameBackground (1).png',320,568);
+    this.load.spritesheet('player','Guy Who Dodges Stuff (1).png',40,71,2);
+    this.load.spritesheet('faller','Thing That Falls From the Sky (1).png',40,71,1);
   },
 
   create: function() {
