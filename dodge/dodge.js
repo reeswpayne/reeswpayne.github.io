@@ -39,7 +39,7 @@ DogeDodge.Play.prototype = {
     this.dodger.animations.add('eyes');
     this.dodger.animations.play('eyes',2,true);
     game.physics.arcade.enable(this.dodger)
-    this.dodger.collideWorldBounds = true;
+    this.dodger.body.collideWorldBounds = true;
     this.dodger.body.bounce.setTo(0.3);
     this.dodger.body.drag.setTo(3000);
     
