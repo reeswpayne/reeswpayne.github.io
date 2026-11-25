@@ -122,7 +122,7 @@
 
       <div style="margin-bottom:50px">
           <a class="fa-brands fa-steam" style="font-size: 24px; width: 200px; height: 20px; background-color: #00000050; text-align: left;" href="https://store.steampowered.com/app/4146550/Manga_Hero/">
-              <span style="display: inline-block; font-size:16px; margin-left:40px">
+              <span style="display: inline-block; font-size:16px; margin-left:20px">
                   Wishlist on Steam
               </span>
           </a>
@@ -188,20 +188,93 @@
           <span style="margin-top: 40px; display: inline-block; height: 200px; width: 900px;">
               The 3D assets used for set dressing were selected primarily from a handful of
               pre-purchased asset packs chosen to maximize reusability, such as general
-              pirate ship assets.
+              pirate ship assets. While designing the visual style of the cargo room,
+              I took care to break up the wall and floor patterns whenever possible to
+              create a more visually distinct environment without interfering with gameplay.
+              The modular shipping container model made for a versatile asset as it could
+              be reused for platforms, walls, and tunnels to guide the player while capturing
+              the feeling of moving through a labyrinthine cargo hold.
           </span>
       </div>
 
-      <div style="height: 100%; position:relative;">
-          <div style="height: 10%;" position:absolute; bottom:0px>
-              <ul style="background-color: #333;">
-                  <li><a href="https://www.linkedin.com/in/reespayne/" class="fa-brands fa-linkedin"></a></li>
-                  <li><a href="https://github.com/reeswpayne/" class="fa-brands fa-github"></a></li>
-                  <li><a href="mailto:reeswpayne@gmail.com" class="fa-regular fa-envelope"></a></li>
-              </ul>
-          </div>
+      <img src="images/cargo_setdress_1.png" style="height:200px; width:400px; margin-right:40px" />
+      <img src="images/cargo_setdress_2.png" style="height:200px; width:400px; margin-right:40px" />
+      <img src="images/cargo_setdress_3.png" style="height:200px; width:400px; margin-right:40px" />
 
+      <div style="margin-bottom:10px">
+          <span style="margin-top: 40px; display: inline-block; height: 200px; width: 900px;">
+              When designing interactable objects for use in levels, we focused on mechanics
+              that could be reused across a variety of level themes to make more efficient
+              use of development time. I created a destructible object Blueprint class that
+              was originally intended to be used for wooden crates in the cargo room, but I
+              later modified it to support any type of destructible mesh for reusability.
+          </span>
       </div>
 
-  </body>
+      <img src="images/crate_1.png" style="height:200px; width:400px; margin-right:40px" />
+
+      <div style="margin-bottom:10px">
+          <span style="margin-top: 40px; display: inline-block; height: 200px; width: 900px;">
+              The destructible object Blueprint went through several more iterations as I
+              uncovered bugs in the initial design. One issue I encountered was that after
+              a crate broke apart, the fractured pieces of the mesh still had collision,
+              which caused them to push the player around erratically. After experimenting
+              with various collision presets, I determined that the destruction event would
+              need to update the destructible object's collision to ignore pawn and camera
+              objects while still interacting with the environment. To achieve this, I
+              created a modified collision preset and dynamically set the collision
+              when the desctruction event was called in the Blueprint script.
+          </span>
+      </div>
+
+      <img src="images/crate_2.png" style="height:200px; width:400px; margin-right:40px" />
+
+      <div style="margin-bottom:10px">
+          <span style="margin-top: 40px; display: inline-block; height: 200px; width: 900px;">
+              I encountered another issue while testing the destructible crate's compatibility
+              with a conveyor belt object created by another level designer. The conveyor belt
+              script was designed to track each object that made contact with the belt and apply
+              a constant offset to those objects' positions based on the direction the belt was
+              facing. I planned to make use of this to have moving crates in the cargo room,
+              making the level feel alive and creating unique obstacles and platforming
+              challenges. However, I found that the conveyor belt failed to move the crates
+              around, despite working perfectly with other types of objects. To investigate
+              the source of the issue, I highlighted one of the crates while simulating the
+              level to observe any changes in its parameters. I noticed that the crate's
+              position was properly increasing over time, but only for the object root and
+              not the actual geometry mesh. For geometry collection objects in UE5, the
+              position value of the object is separate from the visual location of the
+              on-screen mesh, meaning the conveyor belt implementation would not work
+              with them. To fix this mismatch without breaking the working conveyor
+              belt implementation, I created a new "FakeDestructible" class to build
+              off of the existing Destructible class. The FakeDestructible uses a
+              static mesh instead of a destructible mesh as the base, but otherwise
+              has the same parameters as a Destructible. When the player attacks a
+              FakeDestructible object, the FakeDestructible spawns a base Destructible
+              object with matching parameters on its exact position, and then deletes
+              itself. This allows it to function indistinguishably from the regular
+              Destructuble object from the player's perspective, while leveraging
+              the more flexible properties of the static mesh class to achieve more
+              stable behavior. Making use of FakeDestructible fixed the compatibility
+              issue with the conveyor belt and gave me a stronger base to work off of
+              when adding future updates to the destructible object class.
+          </span>
+      </div>
+
+      <img src="images/fakecrate_1.png" style="height:200px; width:400px; margin-right:40px" />
+      <img src="images/fakecrate_2.png" style="height:200px; width:400px; margin-right:40px" />
+      <video src="images/fakecrate_video.mp4" style="height:200px; width:400px; margin-right:40px">Your browser does not support the video tag.</video>
+
+          <div style="height: 100%; position:relative;">
+              <div style="height: 10%;" position:absolute; bottom:0px>
+                  <ul style="background-color: #333;">
+                      <li><a href="https://www.linkedin.com/in/reespayne/" class="fa-brands fa-linkedin"></a></li>
+                      <li><a href="https://github.com/reeswpayne/" class="fa-brands fa-github"></a></li>
+                      <li><a href="mailto:reeswpayne@gmail.com" class="fa-regular fa-envelope"></a></li>
+                  </ul>
+              </div>
+
+          </div>
+
+</body>
 </html>
